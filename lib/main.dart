@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'TikTok',
       debugShowCheckedModeBanner: false,
       home: MyStatefulWidget(),
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
 
 /// This is the stateful widget that the main application instantiates.
 class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({Key? key}) : super(key: key);
+  MyStatefulWidget({Key? key}) : super(key: key);
 
   @override
   State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
@@ -45,11 +45,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       body: HomePage(),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(MdiIcons.compassOutline),
             label: 'Discover',
           ),
@@ -120,12 +120,9 @@ class HomePage extends StatelessWidget {
         return Builder(
           builder: (BuildContext context) {
             return Container(
-              color: const Color(0xFF141518),
+              color: Color(0xFF141518),
               child: Stack(
-                children: [
-                  VideoWidget(videoUrl: item['video']),
-                  const PostContent()
-                ],
+                children: [VideoWidget(videoUrl: item['video']), PostContent()],
               ),
             );
           },
@@ -136,7 +133,7 @@ class HomePage extends StatelessWidget {
 }
 
 class VideoWidget extends StatefulWidget {
-  const VideoWidget({Key? key, required this.videoUrl}) : super(key: key);
+  VideoWidget({Key? key, required this.videoUrl}) : super(key: key);
   final String videoUrl;
 
   @override
@@ -159,12 +156,25 @@ class _VideoWidgetState extends State<VideoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return VideoPlayer(_controller);
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _controller.play();
+          _controller.setLooping(true);
+        });
+      },
+      onSecondaryTap: () {
+        setState(() {
+          _controller.pause();
+        });
+      },
+      child: VideoPlayer(_controller),
+    );
   }
 }
 
 class PostContent extends StatelessWidget {
-  const PostContent({Key? key}) : super(key: key);
+  PostContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -172,11 +182,20 @@ class PostContent extends StatelessWidget {
       children: [
         Container(
           height: 100,
-          padding: const EdgeInsets.only(top: 30),
+          padding: EdgeInsets.only(top: 30),
           // color: Colors.blue,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
+              IconButton(
+                  icon: Icon(
+                    Icons.live_tv,
+                    color: Colors.white,
+                    size: 40,
+                  ),
+                  iconSize: 24.0,
+                  onPressed: null),
+              SizedBox(width: 100),
               Text(
                 'Following',
                 style: TextStyle(
@@ -190,6 +209,15 @@ class PostContent extends StatelessWidget {
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
               ),
+              SizedBox(width: 70),
+              IconButton(
+                  icon: Icon(
+                    Icons.search,
+                    color: Colors.white,
+                    size: 40,
+                  ),
+                  iconSize: 24.0,
+                  onPressed: null),
             ],
           ),
         ),
@@ -199,28 +227,28 @@ class PostContent extends StatelessWidget {
               Expanded(
                 child: Container(
                   // color: Colors.red.withOpacity(0.5),
-                  padding: const EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         '@king_ama',
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      const Text(
+                      SizedBox(height: 10),
+                      Text(
                         'Orange Digital Kalanso : chaque apprenant est sur flutter ',
                         style: TextStyle(
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10),
                       Row(
-                        children: const [
+                        children: [
                           Icon(
                             Icons.music_note,
                             color: Colors.white,
@@ -241,7 +269,7 @@ class PostContent extends StatelessWidget {
               ),
               Container(
                 width: 80,
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: EdgeInsets.only(bottom: 10),
                 // color: Colors.green,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -253,20 +281,20 @@ class PostContent extends StatelessWidget {
                         alignment: AlignmentDirectional.bottomCenter,
                         children: [
                           Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            child: const CircleAvatar(
+                            margin: EdgeInsets.only(bottom: 10),
+                            child: CircleAvatar(
                               radius: 25,
                               backgroundImage:
                                   AssetImage('assets/images/photo.jpg'),
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.all(2),
+                            padding: EdgeInsets.all(2),
                             decoration: BoxDecoration(
                               color: Colors.red,
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.add,
                               color: Colors.white,
                               size: 15,
@@ -285,7 +313,7 @@ class PostContent extends StatelessWidget {
                             color: Colors.white.withOpacity(0.90),
                             size: 45,
                           ),
-                          const Text(
+                          Text(
                             '2,8M',
                             style: TextStyle(
                               color: Colors.white,
@@ -312,7 +340,7 @@ class PostContent extends StatelessWidget {
                               ),
                               height: 40,
                             ),
-                            const Text(
+                            Text(
                               '11,0k',
                               style: TextStyle(
                                 color: Colors.white,
@@ -359,7 +387,7 @@ class PostContent extends StatelessWidget {
                             ),
                           ],
                         )),
-                    const AnimatedLogo()
+                    AnimatedLogo()
                   ],
                 ),
               )
@@ -372,7 +400,7 @@ class PostContent extends StatelessWidget {
 }
 
 class AnimatedLogo extends StatefulWidget {
-  const AnimatedLogo({Key? key}) : super(key: key);
+  AnimatedLogo({Key? key}) : super(key: key);
 
   @override
   _AnimatedLogoState createState() => _AnimatedLogoState();
@@ -385,7 +413,7 @@ class _AnimatedLogoState extends State<AnimatedLogo>
   @override
   void initState() {
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 4000),
+      duration: Duration(milliseconds: 4000),
       vsync: this,
     );
     _controller.repeat();
@@ -411,10 +439,10 @@ class _AnimatedLogoState extends State<AnimatedLogo>
       child: Container(
         height: 45,
         width: 45,
-        padding: const EdgeInsets.all(5),
+        padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
-          image: const DecorationImage(
+          image: DecorationImage(
             image: AssetImage("assets/images/disc_icon.png"),
           ),
         ),
